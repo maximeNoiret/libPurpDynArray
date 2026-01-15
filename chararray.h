@@ -3,15 +3,18 @@
 
 #include <stddef.h>
 
-struct CharArray {
+typedef struct {
   size_t length;
-  size_t size;
+  size_t cap;
   char *ptr;
+} CharArray;
 
-  int init(const size_t &size);
-  int append(const char elem);
-  int get(const size_t &index);
-  int set(const size_t &index, const char elem);
-};
+// general DynArray functions
+int str_init(CharArray *arr, const size_t cap);
+int char_append(CharArray *arr, const char c);
 
+// specific CharArray functions
+int addstr(CharArray *arr, const char *str);
+int setstr(CharArray *arr, const char *str);
+char *getstr(CharArray *arr);
 #endif // CHARARRAY_H
