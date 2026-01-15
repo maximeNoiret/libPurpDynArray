@@ -10,7 +10,7 @@ static int str_grow(CharArray *arr, size_t need) {
   if (need + 1 <= arr->cap) // +1 to count \0
     return 0;
   size_t new_cap = arr->cap;
-  while (new_cap < need) // no, impossible to have cap = 0 :3
+  while (new_cap < need + 1)
     new_cap *= 2;
 
   char *tmp = realloc(arr->ptr, sizeof(char) * new_cap);
@@ -30,12 +30,9 @@ void str_printInfo(CharArray *arr) {
 // general DynArray functions
 int str_init(CharArray *arr, const size_t cap) {
   arr->length = 0;
-  arr->cap = cap;
+  arr->cap = (cap ? cap : 1);
   arr->ptr = malloc(sizeof(char) * cap);
   assert(arr->ptr != NULL);
-
-  if (arr->cap == 0)
-    return -1;
 
   arr->ptr[0] = '\0';
 
