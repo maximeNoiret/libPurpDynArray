@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,8 +13,7 @@ static int str_grow(CharArray *arr, size_t need) {
     new_cap *= 2;
 
   char *tmp = realloc(arr->ptr, sizeof(char) * new_cap);
-  assert(tmp != NULL);
-  if (tmp == NULL)
+  if (!tmp)
     return -1;
   arr->ptr = tmp;
   arr->cap = new_cap;
@@ -31,8 +29,9 @@ void str_printInfo(CharArray *arr) {
 int str_init(CharArray *arr, const size_t cap) {
   arr->length = 0;
   arr->cap = (cap ? cap : 1);
-  arr->ptr = malloc(sizeof(char) * cap);
-  assert(arr->ptr != NULL);
+  arr->ptr = malloc(sizeof(char) * arr->cap);
+  if (!arr->ptr)
+    return -1;
 
   arr->ptr[0] = '\0';
 
@@ -63,9 +62,8 @@ int setstr(CharArray *arr, const char *str) {
 
   memcpy(arr->ptr, str, setLen);
   arr->length = setLen;
-  if (arr->ptr[arr->length] != '\0') {
-    arr->ptr[arr->length] = '\0';
-  }
+  arr->ptr[arr->length] = '\0';
+
   return 0;
 } // setstr
 

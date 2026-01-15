@@ -5,7 +5,7 @@
 
 int main() {
   CharArray strTest;
-  str_init(&strTest, 10);
+  str_init(&strTest, 0);
   printf("\nInit String\n");
   str_printInfo(&strTest);
 
