@@ -6,13 +6,19 @@
 
 #include "chararray.h"
 
-static int str_grow(CharArray *arr) {
-  char *tmp = realloc(arr->ptr, sizeof(char) * arr->cap * 2);
+static int str_grow(CharArray *arr, size_t need) {
+  if (need + 1 <= arr->cap) // +1 to count \0
+    return 0;
+  size_t new_cap = arr->cap;
+  while (new_cap < need) // no, impossible to have cap = 0 :3
+    new_cap *= 2;
+
+  char *tmp = realloc(arr->ptr, sizeof(char) * new_cap);
   assert(tmp != NULL);
   if (tmp == NULL)
     return -1;
   arr->ptr = tmp;
-  arr->cap = (arr->cap ? arr->cap * 2 : 1);
+  arr->cap = new_cap;
   return 0;
 }
 
@@ -28,15 +34,16 @@ int str_init(CharArray *arr, const size_t cap) {
   arr->ptr = malloc(sizeof(char) * cap);
   assert(arr->ptr != NULL);
 
+  if (arr->cap == 0)
+    return -1;
+
   arr->ptr[0] = '\0';
 
   return 0;
 } // str_init
 
 int char_append(CharArray *arr, const char c) {
-  if (arr->length + 2 >= arr->cap) { // + 2 to count c and '\0'
-    str_grow(arr);
-  }
+  str_grow(arr, arr->length + 1);
   arr->ptr[arr->length++] = c;
   arr->ptr[arr->length] = '\0';
   return 0;
@@ -45,9 +52,7 @@ int char_append(CharArray *arr, const char c) {
 // specific CharArray functions
 int addstr(CharArray *arr, const char *str) {
   size_t addLen = strlen(str);
-  if ((arr->cap - arr->length) < addLen + 1) {
-    str_grow(arr);
-  }
+  str_grow(arr, arr->length + addLen);
 
   memcpy(arr->ptr + arr->length, str, addLen);
   arr->length += addLen;
@@ -56,16 +61,15 @@ int addstr(CharArray *arr, const char *str) {
 } // addstr
 
 int setstr(CharArray *arr, const char *str) {
-  size_t addLen = strlen(str);
-  if (arr->cap < addLen + 1) {
-    str_grow(arr);
-  }
+  size_t setLen = strlen(str);
+  str_grow(arr, setLen);
 
-  strncpy(arr->ptr, str, addLen);
-  arr->length = addLen;
+  memcpy(arr->ptr, str, setLen);
+  arr->length = setLen;
   if (arr->ptr[arr->length] != '\0') {
     arr->ptr[arr->length] = '\0';
   }
   return 0;
-}
+} // setstr
+
 char *getstr(CharArray *arr);
