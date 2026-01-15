@@ -1,5 +1,5 @@
 COMPILER = gcc
-CFLAGS = -Wall -Werror -g
+CFLAGS = -Wall -Werror -g -fsanitize=address,undefined
 
 main: main.o chararray.o
 	$(COMPILER) $(CFLAGS) -o main $^

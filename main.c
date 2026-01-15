@@ -1,11 +1,7 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "chararray.h"
-
-void str_printInfo(CharArray *arr) {
-  printf("Length: %zu\nCapacity: %zu\nContent: %s\n", arr->length, arr->cap,
-         arr->ptr);
-}
 
 int main() {
   CharArray strTest;
@@ -21,8 +17,14 @@ int main() {
   printf("\nAppend String with reallocation\n");
   str_printInfo(&strTest);
 
-  printf("\nAppend char with reallocation\n");
+  printf("\nAppend char\n");
   char_append(&strTest, '!');
   str_printInfo(&strTest);
+
+  printf("\nSetting array with reallocation\n");
+  setstr(&strTest, "This is a crazy long string.");
+  str_printInfo(&strTest);
+
+  free(strTest.ptr);
   return 0;
 }

@@ -9,6 +9,8 @@ typedef struct {
   char *ptr;
 } CharArray;
 
+void str_printInfo(CharArray *arr);
+
 // general DynArray functions
 int str_init(CharArray *arr, const size_t cap);
 int char_append(CharArray *arr, const char c);

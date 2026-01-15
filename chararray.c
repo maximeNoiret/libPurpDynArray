@@ -1,20 +1,31 @@
 #include <assert.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "chararray.h"
 
-static void str_realloc(CharArray *arr) {
-  arr->ptr = (char *)realloc(arr->ptr, sizeof(char) * arr->cap);
-  assert(arr->ptr != NULL);
+static int str_grow(CharArray *arr) {
+  char *tmp = realloc(arr->ptr, sizeof(char) * arr->cap * 2);
+  assert(tmp != NULL);
+  if (tmp == NULL)
+    return -1;
+  arr->ptr = tmp;
+  arr->cap = (arr->cap ? arr->cap * 2 : 1);
+  return 0;
+}
+
+void str_printInfo(CharArray *arr) {
+  printf("Length: %zu\nCapacity: %zu\nContent: %s\n", arr->length, arr->cap,
+         arr->ptr);
 }
 
 // general DynArray functions
 int str_init(CharArray *arr, const size_t cap) {
   arr->length = 0;
   arr->cap = cap;
-  arr->ptr = (char *)malloc(sizeof(char) * cap);
+  arr->ptr = malloc(sizeof(char) * cap);
   assert(arr->ptr != NULL);
 
   arr->ptr[0] = '\0';
@@ -24,8 +35,7 @@ int str_init(CharArray *arr, const size_t cap) {
 
 int char_append(CharArray *arr, const char c) {
   if (arr->length + 2 >= arr->cap) { // + 2 to count c and '\0'
-    arr->cap *= 2;
-    str_realloc(arr);
+    str_grow(arr);
   }
   arr->ptr[arr->length++] = c;
   arr->ptr[arr->length] = '\0';
@@ -34,15 +44,28 @@ int char_append(CharArray *arr, const char c) {
 
 // specific CharArray functions
 int addstr(CharArray *arr, const char *str) {
-  if ((arr->cap - arr->length) < strlen(str) + 1) {
-    arr->cap = strlen(str) + 1 + arr->length;
-    str_realloc(arr);
+  size_t addLen = strlen(str);
+  if ((arr->cap - arr->length) < addLen + 1) {
+    str_grow(arr);
   }
 
-  strcat(arr->ptr, str);
-  arr->length += strlen(str);
+  memcpy(arr->ptr + arr->length, str, addLen);
+  arr->length += addLen;
   arr->ptr[arr->length] = '\0';
   return 0;
 } // addstr
-int setstr(CharArray *arr, const char *str);
+
+int setstr(CharArray *arr, const char *str) {
+  size_t addLen = strlen(str);
+  if (arr->cap < addLen + 1) {
+    str_grow(arr);
+  }
+
+  strncpy(arr->ptr, str, addLen);
+  arr->length = addLen;
+  if (arr->ptr[arr->length] != '\0') {
+    arr->ptr[arr->length] = '\0';
+  }
+  return 0;
+}
 char *getstr(CharArray *arr);
