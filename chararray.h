@@ -9,14 +9,14 @@ typedef struct {
   char *ptr;
 } CharArray;
 
-void str_printInfo(CharArray *arr);
+void carr_printInfo(CharArray *arr);
 
 // general DynArray functions
-int str_init(CharArray *arr, const size_t cap);
-int char_append(CharArray *arr, const char c);
+int carr_init(CharArray *arr, const size_t cap);
+int carr_append(CharArray *arr, const char c);
 
 // specific CharArray functions
 int addstr(CharArray *arr, const char *str);
 int setstr(CharArray *arr, const char *str);
-char *getstr(CharArray *arr);
+int getstr(char *dest, CharArray *arr);
 #endif // CHARARRAY_H

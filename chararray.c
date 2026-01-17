@@ -5,7 +5,7 @@
 
 #include "chararray.h"
 
-static int str_grow(CharArray *arr, size_t need) {
+static int grow(CharArray *arr, size_t need) {
   if (need + 1 <= arr->cap) // +1 to count \0
     return 0;
   size_t new_cap = arr->cap;
@@ -39,7 +39,7 @@ int str_init(CharArray *arr, const size_t cap) {
 } // str_init
 
 int char_append(CharArray *arr, const char c) {
-  str_grow(arr, arr->length + 1);
+  grow(arr, arr->length + 1);
   arr->ptr[arr->length++] = c;
   arr->ptr[arr->length] = '\0';
   return 0;
@@ -48,7 +48,7 @@ int char_append(CharArray *arr, const char c) {
 // specific CharArray functions
 int addstr(CharArray *arr, const char *str) {
   size_t addLen = strlen(str);
-  str_grow(arr, arr->length + addLen);
+  grow(arr, arr->length + addLen);
 
   memcpy(arr->ptr + arr->length, str, addLen);
   arr->length += addLen;
@@ -58,7 +58,7 @@ int addstr(CharArray *arr, const char *str) {
 
 int setstr(CharArray *arr, const char *str) {
   size_t setLen = strlen(str);
-  str_grow(arr, setLen);
+  grow(arr, setLen);
 
   memcpy(arr->ptr, str, setLen);
   arr->length = setLen;
@@ -67,4 +67,4 @@ int setstr(CharArray *arr, const char *str) {
   return 0;
 } // setstr
 
-char *getstr(CharArray *arr);
+int getstr(char *dest, CharArray *arr);
