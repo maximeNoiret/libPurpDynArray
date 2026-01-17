@@ -21,9 +21,20 @@ static int grow(CharArray *arr, size_t need) {
 } // grow
 
 // general DynArray functions
-void carr_printInfo(CharArray *arr) {
-  printf("Length: %zu\nCapacity: %zu\nContent: %s\n", arr->length, arr->cap,
-         arr->ptr);
+// TODO: Move this to a common place for every array types
+static void printLevel(unsigned level) {
+  for (unsigned i = 0; i < level; ++i)
+    printf("  ");
+}
+void carr_printInfo(CharArray *arr, unsigned level) {
+  printLevel(level);
+  printf("CharArray:\n");
+  printLevel(level + 1);
+  printf("Length: %zu\n", arr->length);
+  printLevel(level + 1);
+  printf("Capacity: %zu\n", arr->cap);
+  printLevel(level + 1);
+  printf("Content: %s\n", arr->ptr);
 } // carr_printInfo
 
 int carr_init(CharArray *arr, const size_t cap) {
@@ -46,7 +57,7 @@ int carr_append(CharArray *arr, const char c) {
 } // carr_append
 
 // specific CharArray functions
-int addstr(CharArray *arr, const char *str) {
+int appendstr(CharArray *arr, const char *str) {
   size_t addLen = strlen(str);
   grow(arr, arr->length + addLen);
 

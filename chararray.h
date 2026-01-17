@@ -10,12 +10,12 @@ typedef struct {
 } CharArray;
 
 // general DynArray functions
-void carr_printInfo(CharArray *arr);
+void carr_printInfo(CharArray *arr, unsigned level);
 int carr_init(CharArray *arr, const size_t cap);
 int carr_append(CharArray *arr, const char c);
 
 // specific CharArray functions
-int addstr(CharArray *arr, const char *str);
+int appendstr(CharArray *arr, const char *str);
 int setstr(CharArray *arr, const char *str);
 int getstr(char *dest, CharArray *arr);
 #endif // CHARARRAY_H
