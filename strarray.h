@@ -18,6 +18,6 @@ int sarr_free(StrArray *arr);
 
 // specific CharArray functions
 int addstr(StrArray *arr, const char *str);
-int sarr_init_items(StrArray *arr, size_t n);
+int sarr_init_items(StrArray *arr, size_t n, size_t c_cap);
 
 #endif // STRARRAY_H_

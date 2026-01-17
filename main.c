@@ -32,7 +32,7 @@ int main() {
   sarr_printInfo(&strArrTest, 0);
 
   printf("\nInitiating 3 empty strings\n");
-  sarr_init_items(&strArrTest, 3);
+  sarr_init_items(&strArrTest, 3, 10);
   sarr_printInfo(&strArrTest, 0);
 
   sarr_free(&strArrTest);

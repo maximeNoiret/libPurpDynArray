@@ -77,11 +77,11 @@ int addstr(StrArray *arr, const char *str) {
   return 0;
 } // addstr
 
-int sarr_init_items(StrArray *arr, size_t n) {
+int sarr_init_items(StrArray *arr, size_t n, size_t c_cap) {
   size_t finalLength = arr->length + n;
   grow(arr, finalLength);
   for (size_t i = arr->length; i < finalLength; ++i) {
-    carr_init(&arr->ptr[i], 0);
+    carr_init(&arr->ptr[i], c_cap);
     ++arr->length;
   }
   return 0;
