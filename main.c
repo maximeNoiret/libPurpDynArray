@@ -18,7 +18,7 @@ int main() {
   printf("\nAppend char to first string\n");
   sarr_printInfo(&strArrTest, 0);
 
-  appendstr(&strArrTest.ptr[0], "ello World");
+  carr_cat(&strArrTest.ptr[0], "ello World");
   printf("\nAppend String with reallocation to first string\n");
   sarr_printInfo(&strArrTest, 0);
 
@@ -31,7 +31,7 @@ int main() {
   setstr(&strArrTest.ptr[1], "This is a crazy long string.");
   sarr_printInfo(&strArrTest, 0);
 
-  printf("\nInitiating 3 empty strings\n");
+  printf("\nInitiating 3 empty strings with cap 10\n");
   sarr_init_items(&strArrTest, 3, 10);
   sarr_printInfo(&strArrTest, 0);
 

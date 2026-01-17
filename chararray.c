@@ -57,7 +57,7 @@ int carr_append(CharArray *arr, const char c) {
 } // carr_append
 
 // specific CharArray functions
-int appendstr(CharArray *arr, const char *str) {
+int carr_cat(CharArray *arr, const char *str) {
   size_t addLen = strlen(str);
   grow(arr, arr->length + addLen);
 
