@@ -18,15 +18,15 @@ static int grow(CharArray *arr, size_t need) {
   arr->ptr = tmp;
   arr->cap = new_cap;
   return 0;
-}
-
-void str_printInfo(CharArray *arr) {
-  printf("Length: %zu\nCapacity: %zu\nContent: %s\n", arr->length, arr->cap,
-         arr->ptr);
-}
+} // grow
 
 // general DynArray functions
-int str_init(CharArray *arr, const size_t cap) {
+void carr_printInfo(CharArray *arr) {
+  printf("Length: %zu\nCapacity: %zu\nContent: %s\n", arr->length, arr->cap,
+         arr->ptr);
+} // carr_printInfo
+
+int carr_init(CharArray *arr, const size_t cap) {
   arr->length = 0;
   arr->cap = (cap ? cap : 1);
   arr->ptr = malloc(sizeof(char) * arr->cap);
@@ -36,14 +36,14 @@ int str_init(CharArray *arr, const size_t cap) {
   arr->ptr[0] = '\0';
 
   return 0;
-} // str_init
+} // carr_init
 
-int char_append(CharArray *arr, const char c) {
+int carr_append(CharArray *arr, const char c) {
   grow(arr, arr->length + 1);
   arr->ptr[arr->length++] = c;
   arr->ptr[arr->length] = '\0';
   return 0;
-} // char_append
+} // carr_append
 
 // specific CharArray functions
 int addstr(CharArray *arr, const char *str) {

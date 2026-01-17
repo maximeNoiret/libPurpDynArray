@@ -9,9 +9,8 @@ typedef struct {
   char *ptr;
 } CharArray;
 
-void carr_printInfo(CharArray *arr);
-
 // general DynArray functions
+void carr_printInfo(CharArray *arr);
 int carr_init(CharArray *arr, const size_t cap);
 int carr_append(CharArray *arr, const char c);
 
