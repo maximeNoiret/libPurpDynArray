@@ -27,7 +27,12 @@ int main() {
   sarr_printInfo(&strArrTest, 0);
 
   printf("\nSetting array with reallocation to second string\n");
-  setstr(&strArrTest.ptr[0], "This is a crazy long string.");
+  addstr(&strArrTest, "");
+  setstr(&strArrTest.ptr[1], "This is a crazy long string.");
+  sarr_printInfo(&strArrTest, 0);
+
+  printf("\nInitiating 3 empty strings\n");
+  sarr_init_items(&strArrTest, 3);
   sarr_printInfo(&strArrTest, 0);
 
   sarr_free(&strArrTest);

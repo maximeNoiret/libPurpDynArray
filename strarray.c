@@ -76,4 +76,13 @@ int addstr(StrArray *arr, const char *str) {
   setstr(&arr->ptr[arr->length - 1], str);
   return 0;
 } // addstr
-int setstrarr(StrArray *arr, const char *str);
+
+int sarr_init_items(StrArray *arr, size_t n) {
+  size_t finalLength = arr->length + n;
+  grow(arr, finalLength);
+  for (size_t i = arr->length; i < finalLength; ++i) {
+    carr_init(&arr->ptr[i], 0);
+    ++arr->length;
+  }
+  return 0;
+} // sarr_init_items
