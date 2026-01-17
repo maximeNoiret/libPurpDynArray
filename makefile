@@ -7,6 +7,9 @@ main: main.o chararray.o strarray.o
 main.o: main.c chararray.h strarray.h
 	$(COMPILER) $(CFLAGS) -c $< -o $@
 
+libdynarray.a: chararray.o strarray.o
+	ar rcs libdynarray.a $^
+
 strarray.o: strarray.c strarray.h chararray.h
 	$(COMPILER) $(CFLAGS) -c $< -o $@
 
