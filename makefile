@@ -1,5 +1,6 @@
 COMPILER = gcc
 CFLAGS = -Wall -Werror -g -fsanitize=address,undefined
+COMPILE_OBJECT = $(COMPILER) $(CFLAGS) -c $< -o $@
 
 libdynarray.a: chararray.o strarray.o
 	ar rcs libpurpdynarray.a $^
@@ -8,13 +9,16 @@ main: main.o chararray.o strarray.o
 	$(COMPILER) $(CFLAGS) -o main $^
 
 main.o: main.c chararray.h strarray.h
-	$(COMPILER) $(CFLAGS) -c $< -o $@
+	$(COMPILE_OBJECT)
+
+strmap.o: strmap.c strmap.h chararray.h
+	$(COMPILE_OBJECT)
 
 strarray.o: strarray.c strarray.h chararray.h
-	$(COMPILER) $(CFLAGS) -c $< -o $@
+	$(COMPILE_OBJECT)
 
 chararray.o: chararray.c chararray.h
-	$(COMPILER) $(CFLAGS) -c $< -o $@
+	$(COMPILE_OBJECT)
 
 install:
 	cp libpurpdynarray.a /usr/local/lib/
