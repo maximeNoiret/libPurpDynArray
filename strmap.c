@@ -53,8 +53,8 @@ void mapElem_chain_free(MapElem *e) {
 
 void strmap_free(StrMap *arr) {
   for (size_t i = 0; i < arr->c; ++i) {
-    if (arr->ptr[i].p.ptr == NULL) continue;
-    mapElem_chain_free(arr->ptr[i]);
+    if (arr->ptr[i].p.k.ptr == NULL) continue;
+    mapElem_chain_free(&arr->ptr[i]);
   }
 
   free(arr->ptr);
