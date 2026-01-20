@@ -55,7 +55,6 @@ int strmap_init(StrMap *arr, size_t c);
 /**
  * @brief Frees the CharArrays in the Pair
  * @param p Pair to free
- * @todo Not Implemented
  */
 void pair_free(Pair *p);
 

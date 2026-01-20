@@ -1,11 +1,12 @@
 #include <stdlib.h>
+#include "strmap.h"
 #include "chararray.h"
 
 
 size_t hash(char *str) {
     size_t hash = 5381;
     int c;
-    while (c = *str++)
+    while ((c = *str++))
         hash = ((hash << 5) + hash) + c;
     return hash;
 }
@@ -32,3 +33,23 @@ int strmap_init(StrMap *arr, size_t c) {
 
   return 0;
 } // strmap_init
+
+
+
+void pair_free(Pair *p) {
+  free(p->k.ptr);
+  free(p->v.ptr);
+} // pair_free
+
+void mapElem_free(MapElem *e) {
+
+} // mapElem_free
+
+void mapElem_chain_free(MapElem *e) {
+
+} // mapElem_chain_free
+
+void strmap_free(StrMap *arr) {
+
+} // strmap_free
+
