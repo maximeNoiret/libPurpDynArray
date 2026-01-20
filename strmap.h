@@ -3,7 +3,15 @@
 
 #include "chararray.h"
 
+typedef struct {
+	CharArray first;
+	CharArray second;
+} Pair;
+
+typedef struct MapElem {
+	Pair pair;
+	struct MapElem *next;
+} MapElem;
 
 
-
-#endif STRMAP_H_
+#endif // STRMAP_H_
