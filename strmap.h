@@ -52,6 +52,9 @@ int mapElem_init(MapElem *e, size_t c);
  */
 int strmap_init(StrMap *arr, size_t c);
 
+
+
+
 /**
  * @brief Frees the CharArrays in the Pair
  * @param p Pair to free
@@ -61,14 +64,14 @@ void pair_free(Pair *p);
 /**
  * @brief Frees this MapElem only. See mapElem_chain_free() below.
  * @param e MapElem to free.
- * @todo Not Implemented
+ * @todo Not Implemented, need to implement strmap_put() for that.
  */
 void mapElem_free(MapElem *e);
 
 /**
  * @brief Frees the MapElem and its chain using e as head
  * @param e MapElem head of linked list to delete
- * @todo Not Implemented
+ * @todo Not Implemented, need to implement strmap_put() for that.
  */
 void mapElem_chain_free(MapElem *e);
 

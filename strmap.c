@@ -2,7 +2,7 @@
 #include "strmap.h"
 #include "chararray.h"
 
-
+// Standard DJB2 hash
 size_t hash(char *str) {
     size_t hash = 5381;
     int c;
@@ -11,7 +11,7 @@ size_t hash(char *str) {
     return hash;
 }
 
-
+// init
 int pair_init(Pair *p, size_t c) {
   carr_init(&p->k, c);
   carr_init(&p->v, c);
@@ -36,20 +36,27 @@ int strmap_init(StrMap *arr, size_t c) {
 
 
 
+// free
 void pair_free(Pair *p) {
   free(p->k.ptr);
   free(p->v.ptr);
 } // pair_free
 
 void mapElem_free(MapElem *e) {
-
+  pair_free(&e->p);
+  // TODO
 } // mapElem_free
 
 void mapElem_chain_free(MapElem *e) {
-
+  // TODO
 } // mapElem_chain_free
 
 void strmap_free(StrMap *arr) {
+  for (size_t i = 0; i < arr->c; ++i) {
+    if (arr->ptr[i].p.ptr == NULL) continue;
+    mapElem_chain_free(arr->ptr[i]);
+  }
 
+  free(arr->ptr);
 } // strmap_free
 
