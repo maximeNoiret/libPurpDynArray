@@ -3,20 +3,29 @@
 
 #include "chararray.h"
 
+/**
+ * @brief Pair of CharArray vars.
+ */
 typedef struct Pair {
-  CharArray k;
-  CharArray v;
+  CharArray k; ///< Key of the Pair
+  CharArray v; ///< Value of the Pair
 } Pair;
 
+/**
+ * @brief Element of an StrMap.
+ */
 typedef struct MapElem {
-  Pair p;
-  struct MapElem *nxt;
+  Pair p;              ///< Pair of the element
+  struct MapElem *nxt; ///< Next MapElem in the chain, used for collisions
 } MapElem;
 
+/**
+ * @brief Map of CharArray. Could be seen as map<CharArray, CharArray>.
+ */
 typedef struct StrMap {
-  size_t l;
-  size_t c;
-  MapElem *ptr;
+  size_t l;     ///< Number of items in the map
+  size_t c;     ///< Capacity of the map, used as modulo for hashing
+  MapElem *ptr; ///< Array of MapElem
 } StrMap;
 
 /**
