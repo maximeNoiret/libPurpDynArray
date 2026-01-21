@@ -148,7 +148,6 @@ int strmap_put(StrMap *arr, const char *k, const char *v) {
 char *strmap_get(StrMap *arr, char *k) {
   size_t h = hash(k) & (arr->c - 1);
   MapElem *curr = arr->ptr[h];
-  if (curr == NULL) return NULL;
   for (;curr != NULL && strcmp(curr->p.k.ptr, k) != 0 ; curr = curr->nxt);
   if (curr == NULL) return NULL;
   return curr->p.v.ptr;
