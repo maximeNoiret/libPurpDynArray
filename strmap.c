@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "strmap.h"
 #include "chararray.h"
 
@@ -34,6 +35,31 @@ int strmap_init(StrMap *arr, size_t c) {
 
   return 0;
 } // strmap_init
+
+// prints
+static void printLevel(unsigned level) {
+  for (unsigned i = 0; i < level; ++i)
+    printf("  ");
+}
+
+void pair_print(Pair *p, const unsigned lvl) {
+  printLevel(lvl);
+  printf("Pair:\n");
+  printLevel(lvl+1);
+  printf("Key  : %s\n", p->k.ptr);
+  printLevel(lvl+1);
+  printf("Value: %s\n", p->v.ptr);
+} // pair_print
+
+void mapElem_print(MapElem *e, const unsigned lvl) {
+  printLevel(lvl);
+  printf("MapElem:\n");
+  pair_print(&e->p, lvl+1);
+  printLevel(lvl+1);
+  printf("Next Null: %b\n", e->nxt == NULL);
+} // mapElem_print
+
+void strmap_print(StrMap *arr, const unsigned lvl);
 
 
 // strmap functions

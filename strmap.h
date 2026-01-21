@@ -52,6 +52,12 @@ int mapElem_init(MapElem *e, size_t c);
  */
 int strmap_init(StrMap *arr, size_t c);
 
+void pair_print(Pair *p, const unsigned lvl);
+
+void mapElem_print(MapElem *e, const unsigned lvl);
+
+void strmap_print(StrMap *arr, const unsigned lvl);
+
 /**
  * @brief Puts value to key of map
  * @param arr StrMap to put into
