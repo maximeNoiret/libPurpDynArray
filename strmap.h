@@ -42,7 +42,7 @@ int pair_init(Pair *p, size_t c);
  * @param c Capacity of the CharArrays of the Pair in the Element
  * @return 0
  */
-int mapElem_init(MapElem **e, size_t c);
+int mapElem_init(MapElem **e, MapElem *nxt, size_t c);
 
 /**
  * @brief Initializes an StrMap
