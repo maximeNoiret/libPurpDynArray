@@ -13,6 +13,22 @@ size_t hash(const char *str) {
     return hash;
 }
 
+static int grow(StrMap *arr, size_t need) {
+  if (need <= arr->c) return 0;
+
+  // hell on Earth...
+  /*
+   * TODO: - double c while c < need
+   *       - calloc (c, sizeof(MapElem *))
+   *       - if success, store pointer in a temp var
+   *       - iterate through entire previous pointer AND each linked chains individually
+   *       - for each element, put into new map (yes, using put())
+   *       - call strmap_free on previous pointer
+   *       - set previous pointer to new pointer
+   *       - hope and pray that the gods of C are with me
+   */
+}
+
 // init
 int pair_init(Pair *p, size_t c) {
   carr_init(&p->k, c);
