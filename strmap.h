@@ -52,8 +52,22 @@ int mapElem_init(MapElem *e, size_t c);
  */
 int strmap_init(StrMap *arr, size_t c);
 
+/**
+ * @brief Puts value to key of map
+ * @param arr StrMap to put into
+ * @param k Key string
+ * @param v Value
+ * @return 0
+ */
+int strmap_put(StrMap *arr, char *k, char *v);
 
-
+/**
+ * @brief Gets a value from map
+ * @param arr StrMap from which to get
+ * @param k Key of the wanted value
+ * @return String at that location
+ */
+char *strmap_get(StrMap *arr, char *k);
 
 /**
  * @brief Frees the CharArrays in the Pair

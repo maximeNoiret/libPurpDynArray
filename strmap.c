@@ -35,6 +35,18 @@ int strmap_init(StrMap *arr, size_t c) {
 } // strmap_init
 
 
+// strmap functions
+int strmap_put(StrMap *arr, char *k, char *v) {
+  size_t h = hash(k);
+  
+  return 0;
+} // strmap_put
+
+char *strmap_get(StrMap *arr, char *k) {
+
+} // strmap_get
+
+
 
 // free
 void pair_free(Pair *p) {
