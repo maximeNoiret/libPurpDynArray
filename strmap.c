@@ -118,7 +118,6 @@ int strmap_put(StrMap *arr, const char *k, const char *v) {
   MapElem *curr = arr->ptr[h];
   // if arr.ptr[h] is not free, follow linked chain until free
   if (curr != NULL) {
-    
     // goto end of chain OR equal key
     for(bool deep = false;;) {
       if (strcmp(curr->p.k.ptr, k) == 0) {
@@ -147,7 +146,12 @@ int strmap_put(StrMap *arr, const char *k, const char *v) {
 } // strmap_put
 
 char *strmap_get(StrMap *arr, char *k) {
-  return '\0';
+  size_t h = hash(k) & (arr->c - 1);
+  MapElem *curr = arr->ptr[h];
+  if (curr == NULL) return NULL;
+  for (;curr != NULL && strcmp(curr->p.k.ptr, k) != 0 ; curr = curr->nxt);
+  if (curr == NULL) return NULL;
+  return curr->p.v.ptr;
 } // strmap_get
 
 

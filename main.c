@@ -28,6 +28,8 @@ int main() {
   strmap_put(&map, "k9", "v9");
   strmap_print(&map, 0);
 
+  printf("Get \"k5\" = %s\n", strmap_get(&map, "k5"));
+
   strmap_free(&map);
   return 0;
 }

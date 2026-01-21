@@ -71,7 +71,7 @@ int strmap_put(StrMap *arr, const char *k, const char *v);
  * @brief Gets a value from map
  * @param arr StrMap from which to get
  * @param k Key of the wanted value
- * @return String at that location
+ * @return String at that location, or NULL if not found
  */
 char *strmap_get(StrMap *arr, char *k);
 
