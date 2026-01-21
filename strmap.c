@@ -17,12 +17,14 @@ static int grow(StrMap *arr, size_t need) {
   if (need <= arr->c) return 0;
 
   size_t old_c = arr->c;
-  while (arr->c < need) arr->c <<= 1;
+  size_t new_c = arr->c;
+  while (new_c < need) new_c <<= 1;
 
   MapElem **old_ptr = arr->ptr;
-  arr->ptr = calloc(arr->c, sizeof(MapElem *));
+  arr->ptr = calloc(new_c, sizeof(MapElem *));
   if (!arr->ptr) return -1;
   arr->l = 0;
+  arr->c = new_c;
 
   for (size_t i = 0; i < old_c; ++i) {
     if (old_ptr[i] == NULL) continue;
