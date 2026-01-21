@@ -5,7 +5,7 @@
 
 int main() {
   StrMap map;
-  strmap_init(&map, 10);
+  strmap_init(&map, 4);
   strmap_print(&map, 0);
 
   strmap_put(&map, "tesu", "bloop");

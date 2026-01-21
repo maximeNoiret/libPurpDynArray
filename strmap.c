@@ -16,19 +16,25 @@ size_t hash(const char *str) {
 static int grow(StrMap *arr, size_t need) {
   if (need <= arr->c) return 0;
 
+  size_t old_c = arr->c;
   while (arr->c < need) arr->c <<= 1;
 
-  // hell on Earth...
-  /* TODO:
-   *       - double c while c < need
-   *       - calloc (c, sizeof(MapElem *))
-   *       - if success, store pointer in a temp var
-   *       - iterate through entire previous pointer AND each linked chains individually
-   *       - for each element, put into new map (yes, using put())
-   *       - call strmap_free on previous pointer
-   *       - set previous pointer to new pointer
-   *       - hope and pray that the gods of C are with me
-   */
+  MapElem **old_ptr = arr->ptr;
+  arr->ptr = calloc(arr->c, sizeof(MapElem *));
+  if (!arr->ptr) return -1;
+  arr->l = 0;
+
+  for (size_t i = 0; i < old_c; ++i) {
+    if (old_ptr[i] == NULL) continue;
+    MapElem *curr = old_ptr[i];
+    for (MapElem *nxt; curr != NULL; curr = nxt) {
+      nxt = curr->nxt;
+      strmap_put(arr, curr->p.k.ptr, curr->p.v.ptr);
+      mapElem_free(curr);
+    }
+  }
+
+  free(old_ptr);
   return 0;
 }
 
