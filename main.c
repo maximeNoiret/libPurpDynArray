@@ -8,27 +8,25 @@ int main() {
   strmap_init(&map, 10);
   strmap_print(&map, 0);
 
-  strmap_put(&map, "test", "bloop");
+  strmap_put(&map, "tesu", "bloop");
 
   strmap_print(&map, 0);
 
-  strmap_put(&map, "test", "bleep");  // test REPLACING a key
+  strmap_put(&map, "tesu", "bleep");  // test REPLACING a key
 
   strmap_print(&map, 0);
 
-  strmap_put(&map, "k0", "v0");
-  strmap_put(&map, "k1", "v1");
-  strmap_put(&map, "k2", "v2");
-  strmap_put(&map, "k3", "v3");
-  strmap_put(&map, "k4", "v4");
-  strmap_put(&map, "k5", "v5");
-  strmap_put(&map, "k6", "v6");
-  strmap_put(&map, "k7", "v7");
-  strmap_put(&map, "k8", "v8");
-  strmap_put(&map, "k9", "v9");
+  strmap_put(&map, "A", "child1");
+  strmap_put(&map, "Q", "child2");
+  strmap_put(&map, "a", "child3");
+
   strmap_print(&map, 0);
 
-  printf("Get \"k5\" = %s\n", strmap_get(&map, "k5"));
+  strmap_put(&map, "Q", "bluup"); // test REPLACING a key with children and not head
+  strmap_print(&map, 0);
+
+  printf("Get \"bloop\" = %s\n", strmap_get(&map, "bloop"));
+  printf("Get \"a\" = %s\n", strmap_get(&map, "a"));
 
   strmap_free(&map);
   return 0;

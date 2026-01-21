@@ -116,32 +116,35 @@ int strmap_put(StrMap *arr, const char *k, const char *v) {
   grow(arr, arr->l + 1);
   size_t h = hash(k) & (arr->c - 1);
   MapElem *curr = arr->ptr[h];
-  // if arr.ptr[h] is not free, follow linked chain until free
+  // Collision handling. if arr.ptr[h] is not free, follow linked chain until free.
   if (curr != NULL) {
-    // goto end of chain OR equal key
-    for(bool deep = false;;) {
+    MapElem *prev;
+    for (bool deep = false;;) {
       if (strcmp(curr->p.k.ptr, k) == 0) {
         MapElem *nxt = curr->nxt;
         mapElem_free(curr);
         mapElem_init(&curr, nxt, strlen(k));
         if (!deep) arr->ptr[h] = curr;
+        else prev->nxt = curr;
         break;
       }
       if (curr->nxt == NULL) {
         mapElem_init(&curr->nxt, NULL, strlen(k));
         curr = curr->nxt;
+        ++arr->l;
         break;
       }
       deep = true;
+      prev = curr;
       curr = curr->nxt;
     }
   } else { 
     mapElem_init(&curr, NULL, strlen(k));
     arr->ptr[h] = curr;
+    ++arr->l;
   }
   setstr(&curr->p.k, k);
   setstr(&curr->p.v, v);
-  ++arr->l;
   return 0;
 } // strmap_put
 
