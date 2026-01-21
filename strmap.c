@@ -87,6 +87,7 @@ int strmap_put(StrMap *arr, const char *k, const char *v) {
         curr->nxt != NULL;
       curr = curr->nxt
       );
+    if (strncmp(curr->p.k.ptr, k, strlen(k)) == 0) mapElem_free(curr);
   }
   
   mapElem_init(&curr, strlen(k));
