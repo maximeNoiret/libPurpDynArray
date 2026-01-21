@@ -2,7 +2,7 @@ COMPILER = gcc
 CFLAGS = -Wall -Werror -g -fsanitize=address,undefined
 COMPILE_OBJECT = $(COMPILER) $(CFLAGS) -c $< -o $@
 
-libdynarray.a: chararray.o strarray.o
+libpurpdynarray.a: chararray.o strarray.o strmap.o
 	ar rcs libpurpdynarray.a $^
 
 main: main.o chararray.o strarray.o strmap.o
