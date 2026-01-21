@@ -114,7 +114,7 @@ void strmap_print(StrMap *arr, const unsigned lvl) {
 // strmap functions
 int strmap_put(StrMap *arr, const char *k, const char *v) {
   grow(arr, arr->l + 1);
-  size_t h = hash(k) & arr->c - 1;
+  size_t h = hash(k) & (arr->c - 1);
   MapElem *curr = arr->ptr[h];
   // if arr.ptr[h] is not free, follow linked chain until free
   if (curr != NULL) {
