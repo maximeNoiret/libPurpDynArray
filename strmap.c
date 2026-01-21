@@ -20,16 +20,17 @@ int pair_init(Pair *p, size_t c) {
   return 0;
 } // pair_init
 
-int mapElem_init(MapElem *e, size_t c) {
-  pair_init(&e->p, c);
-  e->nxt = NULL;
+int mapElem_init(MapElem **e, size_t c) {
+  *e = calloc(1, sizeof(MapElem));
+  pair_init(&(*e)->p, c);
+  (*e)->nxt = NULL;
   return 0;
 } // mapElem_init
 
 int strmap_init(StrMap *arr, size_t c) {
   arr->l = 0;
   arr->c = (c ? c : 1);
-  arr->ptr = calloc(arr->c, sizeof(MapElem));  // use calloc since being NULL is important here
+  arr->ptr = calloc(arr->c, sizeof(MapElem *));  // use calloc since being NULL is important here
   if (!arr->ptr)
     return -1;
 
@@ -56,7 +57,7 @@ void mapElem_print(MapElem *e, const unsigned lvl) {
   printf("MapElem:\n");
   pair_print(&e->p, lvl+1);
   printLevel(lvl+1);
-  printf("Next Null: %b\n", e->nxt == NULL);
+  printf("Next Null: %i\n", e->nxt == NULL);
 } // mapElem_print
 
 void strmap_print(StrMap *arr, const unsigned lvl) {
@@ -67,20 +68,20 @@ void strmap_print(StrMap *arr, const unsigned lvl) {
   printLevel(lvl+1);
   printf("Capacity: %zu\n", arr->c);
   for (size_t i = 0; i < arr->c; ++i) {
-    if (arr->ptr[i].p.k.ptr == NULL) continue;
+    if (arr->ptr[i] == NULL) continue;
     printLevel(lvl+1);
     printf("Index %zu:\n", i);
-    mapElem_print(&arr->ptr[i], lvl+2);
+    mapElem_print(arr->ptr[i], lvl+2);
   }
 } // strmap_print
 
 
 // strmap functions
 int strmap_put(StrMap *arr, const char *k, const char *v) {
-  size_t h = hash(k);
-  MapElem *curr = &arr->ptr[h];
+  size_t h = hash(k) % arr->c;
+  MapElem *curr = arr->ptr[h];
   // if arr.ptr[h] is not free, follow linked chain until free
-  if (curr->p.k.ptr != NULL) {
+  if (curr != NULL) {
     for (; 
       strncmp(curr->p.k.ptr, k, strlen(k)) == 0 &&
         curr->nxt != NULL;
@@ -88,10 +89,10 @@ int strmap_put(StrMap *arr, const char *k, const char *v) {
       );
   }
   
-  mapElem_init(curr, strlen(k));
-  Pair *pair = &(curr->p);
-  setstr(&pair->k, k);
-  setstr(&pair->v, v);
+  mapElem_init(&curr, strlen(k));
+  setstr(&curr->p.k, k);
+  setstr(&curr->p.v, v);
+  arr->ptr[h] = curr;
   return 0;
 } // strmap_put
 
@@ -109,7 +110,7 @@ void pair_free(Pair *p) {
 
 void mapElem_free(MapElem *e) {
   pair_free(&e->p);
-  // TODO
+  free(e);
 } // mapElem_free
 
 void mapElem_chain_free(MapElem *e) {
@@ -118,8 +119,8 @@ void mapElem_chain_free(MapElem *e) {
 
 void strmap_free(StrMap *arr) {
   for (size_t i = 0; i < arr->c; ++i) {
-    if (arr->ptr[i].p.k.ptr == NULL) continue;
-    mapElem_chain_free(&arr->ptr[i]);
+    if (arr->ptr[i] == NULL) continue;
+    mapElem_free(arr->ptr[i]);
   }
 
   free(arr->ptr);

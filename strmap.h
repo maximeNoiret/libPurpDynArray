@@ -23,9 +23,9 @@ typedef struct MapElem {
  * @brief Map of CharArray. Could be seen as map<CharArray, CharArray>.
  */
 typedef struct StrMap {
-  size_t l;     ///< Number of items in the map
-  size_t c;     ///< Capacity of the map, used as modulo for hashing
-  MapElem *ptr; ///< Array of MapElem
+  size_t l;      ///< Number of items in the map
+  size_t c;      ///< Capacity of the map, used as modulo for hashing
+  MapElem **ptr; ///< Pointer to Pointers of MapElem
 } StrMap;
 
 /**
@@ -42,7 +42,7 @@ int pair_init(Pair *p, size_t c);
  * @param c Capacity of the CharArrays of the Pair in the Element
  * @return 0
  */
-int mapElem_init(MapElem *e, size_t c);
+int mapElem_init(MapElem **e, size_t c);
 
 /**
  * @brief Initializes an StrMap
