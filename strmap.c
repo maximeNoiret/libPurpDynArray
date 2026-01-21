@@ -1,9 +1,10 @@
 #include <stdlib.h>
+#include <string.h>
 #include "strmap.h"
 #include "chararray.h"
 
 // Standard DJB2 hash
-size_t hash(char *str) {
+size_t hash(const char *str) {
     size_t hash = 5381;
     int c;
     while ((c = *str++))
@@ -36,14 +37,27 @@ int strmap_init(StrMap *arr, size_t c) {
 
 
 // strmap functions
-int strmap_put(StrMap *arr, char *k, char *v) {
+int strmap_put(StrMap *arr, const char *k, const char *v) {
   size_t h = hash(k);
+  MapElem *curr = &arr->ptr[h];
+  // if arr.ptr[h] is not free, follow linked chain until free
+  if (curr->p.k.ptr != NULL) {
+    for (; 
+      strncmp(curr->p.k.ptr, k, strlen(k)) == 0 &&
+        curr->nxt != NULL;
+      curr = curr->nxt
+      );
+  }
   
+  mapElem_init(curr, strlen(k));
+  Pair *pair = &(curr->p);
+  setstr(&pair->k, k);
+  setstr(&pair->v, v);
   return 0;
 } // strmap_put
 
 char *strmap_get(StrMap *arr, char *k) {
-
+  return '\0';
 } // strmap_get
 
 

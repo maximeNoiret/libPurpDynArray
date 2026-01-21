@@ -59,7 +59,7 @@ int strmap_init(StrMap *arr, size_t c);
  * @param v Value
  * @return 0
  */
-int strmap_put(StrMap *arr, char *k, char *v);
+int strmap_put(StrMap *arr, const char *k, const char *v);
 
 /**
  * @brief Gets a value from map
