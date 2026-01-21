@@ -16,9 +16,11 @@ size_t hash(const char *str) {
 static int grow(StrMap *arr, size_t need) {
   if (need <= arr->c) return 0;
 
+  while (arr->c < need) arr->c <<= 1;
+
   // hell on Earth...
-  /*
-   * TODO: - double c while c < need
+  /* TODO:
+   *       - double c while c < need
    *       - calloc (c, sizeof(MapElem *))
    *       - if success, store pointer in a temp var
    *       - iterate through entire previous pointer AND each linked chains individually
@@ -27,6 +29,7 @@ static int grow(StrMap *arr, size_t need) {
    *       - set previous pointer to new pointer
    *       - hope and pray that the gods of C are with me
    */
+  return 0;
 }
 
 // init
@@ -43,9 +46,22 @@ int mapElem_init(MapElem **e, MapElem *nxt, size_t c) {
   return 0;
 } // mapElem_init
 
+static void round_up_bit(size_t *c) {
+  // rounds c up to the nearest power of 2 for hash modulo optimization
+  --*c;
+  *c |= *c >> 1;
+  *c |= *c >> 2;
+  *c |= *c >> 4;
+  *c |= *c >> 8;
+  *c |= *c >> 16;
+  *c |= *c >> 32;
+  ++*c;
+}
+
 int strmap_init(StrMap *arr, size_t c) {
   arr->l = 0;
   arr->c = (c ? c : 1);
+  round_up_bit(&arr->c);
   arr->ptr = calloc(arr->c, sizeof(MapElem *));  // use calloc since being NULL is important here
   if (!arr->ptr)
     return -1;
@@ -72,9 +88,11 @@ void mapElem_print(MapElem *e, const unsigned lvl) {
   printLevel(lvl);
   printf("MapElem:\n");
   pair_print(&e->p, lvl+1);
-  printLevel(lvl+1);
-  printf("Next:\n");
-  if (e->nxt != NULL) mapElem_print(e->nxt, lvl+2);
+  if (e->nxt != NULL) {
+    printLevel(lvl+1);
+    printf("Next:\n");
+    mapElem_print(e->nxt, lvl+2);
+  }
 } // mapElem_print
 
 void strmap_print(StrMap *arr, const unsigned lvl) {
@@ -95,7 +113,8 @@ void strmap_print(StrMap *arr, const unsigned lvl) {
 
 // strmap functions
 int strmap_put(StrMap *arr, const char *k, const char *v) {
-  size_t h = hash(k) % arr->c;
+  grow(arr, arr->l + 1);
+  size_t h = hash(k) & arr->c - 1;
   MapElem *curr = arr->ptr[h];
   // if arr.ptr[h] is not free, follow linked chain until free
   if (curr != NULL) {
@@ -123,6 +142,7 @@ int strmap_put(StrMap *arr, const char *k, const char *v) {
   }
   setstr(&curr->p.k, k);
   setstr(&curr->p.v, v);
+  ++arr->l;
   return 0;
 } // strmap_put
 
