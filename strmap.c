@@ -59,7 +59,20 @@ void mapElem_print(MapElem *e, const unsigned lvl) {
   printf("Next Null: %b\n", e->nxt == NULL);
 } // mapElem_print
 
-void strmap_print(StrMap *arr, const unsigned lvl);
+void strmap_print(StrMap *arr, const unsigned lvl) {
+  printLevel(lvl);
+  printf("StrMap:\n");
+  printLevel(lvl+1);
+  printf("Length  : %zu\n", arr->l);
+  printLevel(lvl+1);
+  printf("Capacity: %zu\n", arr->c);
+  for (size_t i = 0; i < arr->c; ++i) {
+    if (arr->ptr[i].p.k.ptr == NULL) continue;
+    printLevel(lvl+1);
+    printf("Index %zu:\n", i);
+    mapElem_print(&arr->ptr[i], lvl+2);
+  }
+} // strmap_print
 
 
 // strmap functions
